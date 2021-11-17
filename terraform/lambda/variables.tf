@@ -1,5 +1,6 @@
 variable "environment" {
-  type = string
+  type        = string
+  description = "identifier for the environment to be added to tags and resource names"
 }
 
 locals {
