@@ -44,9 +44,6 @@ Resources:
             RestApiId: !Ref IPVApi
             Path: /authorize
             Method: get
-      Policies:
-        - DynamoDBWritePolicy: # see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html
-            TableName: !Ref CredentialTable
 
   AccessTokenFunction:
     Type: AWS::Serverless::Function
@@ -61,9 +58,6 @@ Resources:
             Path: /dev/token
             Method: post
             RequestModel: !Ref TokenRequest
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref CredentialTable
 
   UserIdentityFunction:
     Type: AWS::Serverless::Function
@@ -77,14 +71,6 @@ Resources:
             RestApiId: !Ref IPVApi
             Path: /dev/user-identity
             Method: get
-
-  CredentialTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      TableName: Authorization
-      PrimaryKey:
-        Name: id
-        Type: String
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
