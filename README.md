@@ -29,10 +29,6 @@ Request evidence from a credential issuer
 
   `POST`
 
-* **Content-Type:**
-
-    `application/x-www-form-urlencoded`
-
 * **URL Params**
 
    None
@@ -41,15 +37,22 @@ Request evidence from a credential issuer
  
   * `authorization_code [string, required]`
   * `credential_issuer_id [string, required]`
-  * `session_id [string, required]`
 
+* **Headers**
+
+  * `Content-Type: application/x-www-form-urlencoded [string, required]`
+  * `ipv-session-id [string, required]`
 
 * **Success Response:**
 
   * Code: `200`
   * Content: `{}`
 
-* **Error Response:**
+* **Validation Error Response:**
 
   * Code: `400` 
+  * Content: `{ "code" : "1001", "message": "error message" }`
+
+* **Server Error Response:**
+  * Code: `500`
   * Content: `{ "code" : "1001", "message": "error message" }`
