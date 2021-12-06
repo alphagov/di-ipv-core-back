@@ -26,8 +26,8 @@ public class CredentialIssuerHandler implements RequestHandler<APIGatewayProxyRe
 
     protected static final CredentialIssuerConfig PASSPORT_ISSUER = new CredentialIssuerConfig(
             "PassportIssuer",
-            URI.create("http://www.example.com"),
-            URI.create("http://www.example.com/credential")
+            URI.create("http://credential-issuer-stub:8084/token"),
+            URI.create("http://credential-issuer-stub:8084/credential")
     );
     protected static final CredentialIssuerConfig FRAUD_ISSUER = new CredentialIssuerConfig(
             "FraudIssuer",

@@ -58,7 +58,7 @@ public class CredentialIssuerService {
                         errorResponse.getErrorObject(),
                         new ErrorObject("unknown", "unknown")
                 );
-                LOGGER.error("{}: {}", errorObject.getCode(), errorObject.getDescription());
+                LOGGER.error("Error getting token from cred issuer: {}: {}", errorObject.getCode(), errorObject.getDescription());
                 throw new CredentialIssuerException(HTTPResponse.SC_BAD_REQUEST, ErrorResponse.INVALID_TOKEN_REQUEST);
             }
             return tokenResponse
