@@ -6,9 +6,13 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.gov.di.ipv.core.library.dto.SharedAttributesDto;
+import uk.gov.di.ipv.core.library.dto.SharedAttributesDtoBuilder;
 import uk.gov.di.ipv.core.library.exceptions.HttpResponseException;
 import uk.gov.di.ipv.core.library.helpers.ApiGatewayResponseGenerator;
 import uk.gov.di.ipv.core.library.helpers.RequestHelper;
+import uk.gov.di.ipv.core.library.service.ConfigurationService;
+import uk.gov.di.ipv.core.library.service.UserIdentityService;
 
 import java.util.Collections;
 import java.util.Map;
@@ -21,13 +25,29 @@ public class SharedAttributesHandler
     public static final String IPV_SESSION_ID_HEADER_KEY = "ipv-session-id";
     public static final int BAD_REQUEST = 400;
     public static final int OK = 200;
+    private final UserIdentityService userIdentityService;
+
+    public SharedAttributesHandler(UserIdentityService userIdentityService) {
+        this.userIdentityService = userIdentityService;
+    }
+
+    public SharedAttributesHandler() {
+        this.userIdentityService = new UserIdentityService(new ConfigurationService());
+    }
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(
             APIGatewayProxyRequestEvent input, Context context) {
         try {
             String ipvSessionId = getIpvSessionId(input.getHeaders());
-            return ApiGatewayResponseGenerator.proxyJsonResponse(OK, "");
+            Map<String, String> sharedAttributes = userIdentityService.getUserIssuedCredentials(ipvSessionId);
+
+            SharedAttributesDto sharedAttributesDto =
+                    new SharedAttributesDtoBuilder()
+                            .setName(sharedAttributes.get("name"))
+                            .build();
+
+            return ApiGatewayResponseGenerator.proxyJsonResponse(OK, sharedAttributesDto);
         } catch (HttpResponseException e) {
             LOGGER.error(e.getMessage());
             return ApiGatewayResponseGenerator.proxyResponse(
