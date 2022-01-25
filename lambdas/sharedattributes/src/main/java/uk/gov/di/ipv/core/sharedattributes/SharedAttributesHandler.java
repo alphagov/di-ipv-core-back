@@ -44,9 +44,9 @@ public class SharedAttributesHandler
             APIGatewayProxyRequestEvent input, Context context) {
         try {
             String ipvSessionId = getIpvSessionId(input.getHeaders());
-            List<SharedAttributes> sharedAttributes = getSharedAttributes(ipvSessionId);
+            SharedAttributesResponse sharedAttributesResponse = getSharedAttributes(ipvSessionId);
 
-            return ApiGatewayResponseGenerator.proxyJsonResponse(OK, sharedAttributes);
+            return ApiGatewayResponseGenerator.proxyJsonResponse(OK, sharedAttributesResponse);
         } catch (HttpResponseException e) {
             LOGGER.error(e.getMessage());
             return ApiGatewayResponseGenerator.proxyResponse(
@@ -54,10 +54,11 @@ public class SharedAttributesHandler
         }
     }
 
-    private List<SharedAttributes> getSharedAttributes(String ipvSessionId)
+    private SharedAttributesResponse getSharedAttributes(String ipvSessionId)
             throws HttpResponseException {
         Map<String, String> credentials =
                 userIdentityService.getUserIssuedCredentials(ipvSessionId);
+
         List<SharedAttributes> sharedAttributes = new ArrayList<>();
         for (String credential : credentials.values()) {
             try {
@@ -66,7 +67,7 @@ public class SharedAttributesHandler
                 throw new HttpResponseException(500, e.getMessage());
             }
         }
-        return sharedAttributes;
+        return SharedAttributesResponse.from(sharedAttributes);
     }
 
     private String getIpvSessionId(Map<String, String> headers) throws HttpResponseException {

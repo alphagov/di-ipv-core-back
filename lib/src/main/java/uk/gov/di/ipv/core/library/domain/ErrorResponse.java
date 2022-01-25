@@ -44,18 +44,4 @@ public enum ErrorResponse {
     public String getMessage() {
         return message;
     }
-
-    public static class SharedAttributesDtoBuilder {
-
-        private String[] forenames;
-
-        public SharedAttributesDtoBuilder setName(String[] forenames) {
-            this.forenames = forenames;
-            return this;
-        }
-
-        public SharedAttributes build() {
-            return new SharedAttributes(forenames);
-        }
-    }
 }
