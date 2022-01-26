@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  ipv-core-back
+
+Globals:
+  Function:
+    Timeout: 20
+
+Parameters:
+  Environment:
+    Type: String
+
+Resources:
+
+  IPVCoreAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: IPV Core API Gateway
+      StageName: !Sub ${Environment}
+
+  IPVSharedAttributesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "ipv-shared-attributes-${Environment}"
+      Handler: uk.gov.di.ipv.core.sharedattributes.SharedAttributesHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: ../lambdas/sharedattributes
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          ENVIRONMENT: !Sub "${Environment}"
+          USER_ISSUED_CREDENTIALS_TABLE_NAME: "user-issued-credentials-dev"
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: "user-issued-credentials-dev"
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref IPVCoreAPI
+            Path: /shareattributes
+            Method: GET
+

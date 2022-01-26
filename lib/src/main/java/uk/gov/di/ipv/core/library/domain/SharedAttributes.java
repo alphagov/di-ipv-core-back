@@ -17,10 +17,14 @@ public class SharedAttributes {
     private Map<String, String> address;
     private List<Map<String, String>> addressHistory;
 
-    private SharedAttributes() {
-    }
+    private SharedAttributes() {}
 
-    public SharedAttributes(List<String> forenames, String familyName, String dateOfBirth, Map<String, String> address, List<Map<String, String>> addressHistory) {
+    public SharedAttributes(
+            List<String> forenames,
+            String familyName,
+            String dateOfBirth,
+            Map<String, String> address,
+            List<Map<String, String>> addressHistory) {
         this.givenNames = forenames;
         this.familyName = familyName;
         this.dateOfBirth = dateOfBirth;
@@ -69,6 +73,7 @@ public class SharedAttributes {
             this.familyName = familyName;
             return this;
         }
+
         public Builder setDateOfBirth(String dateOfBirth) {
             this.dateOfBirth = dateOfBirth;
             return this;
@@ -85,8 +90,8 @@ public class SharedAttributes {
         }
 
         public SharedAttributes build() {
-            return new SharedAttributes(givenNames, familyName, dateOfBirth, address, addressHistory);
-
+            return new SharedAttributes(
+                    givenNames, familyName, dateOfBirth, address, addressHistory);
         }
     }
 }

@@ -26,54 +26,44 @@ import static org.mockito.Mockito.when;
 class SharedAttributesHandlerTest {
 
     public static final String SESSION_ID = "the-session-id";
-    public static final Map<String, Object> CREDENTIAL_INPUT_1 = Map.of(
-            "attributes",
+    public static final Map<String, Object> CREDENTIAL_INPUT_1 =
             Map.of(
-                    "names",
+                    "attributes",
                     Map.of(
-                            "givenNames",
-                            List.of("Dan", "Daniel"),
-                            "familyName",
-                            "Watson"),
-                    "dateOfBirth", "2021-03-01",
-                    "address", Map.of(
-                            "line1", "Current 123 Street",
-                            "postcode", "Current M34 1AA"),
-                    "addressHistory", List.of(
+                            "names",
+                            Map.of("givenNames", List.of("Dan", "Daniel"), "familyName", "Watson"),
+                            "dateOfBirth",
+                            "2021-03-01",
+                            "address",
                             Map.of(
-                            "line1", "Previous 123 Street",
-                            "postcode", "Previous M34 1AA"),
-                            Map.of(
-                                    "line1", "Old 321 Street",
-                                    "postcode", "Old M34 1AA")
-                    )
-            )
-    );
+                                    "line1", "Current 123 Street",
+                                    "postcode", "Current M34 1AA"),
+                            "addressHistory",
+                            List.of(
+                                    Map.of(
+                                            "line1", "Previous 123 Street",
+                                            "postcode", "Previous M34 1AA"),
+                                    Map.of(
+                                            "line1", "Old 321 Street",
+                                            "postcode", "Old M34 1AA"))));
 
-    public static final Map<String, Object> CREDENTIAL_INPUT_2 = Map.of(
-            "attributes",
+    public static final Map<String, Object> CREDENTIAL_INPUT_2 =
             Map.of(
-                    "names",
+                    "attributes",
                     Map.of(
-                            "givenNames",
-                            List.of("Danny"),
-                            "familyName",
-                            "Watson"),
-                    "dateOfBirth",
-                    "1991-03-01",
-                    "address", Map.of(
-                            "line1", "321 Street",
-                            "postcode", "321 Street")
-            )
-    );
+                            "names",
+                            Map.of("givenNames", List.of("Danny"), "familyName", "Watson"),
+                            "dateOfBirth",
+                            "1991-03-01",
+                            "address",
+                            Map.of(
+                                    "line1", "321 Street",
+                                    "postcode", "321 Street")));
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    @Mock
-    private Context context;
-    @Mock
-    private UserIdentityService userIdentityService;
-    @Mock
-    private ConfigurationService configurationService;
+    @Mock private Context context;
+    @Mock private UserIdentityService userIdentityService;
+    @Mock private ConfigurationService configurationService;
     private SharedAttributesHandler underTest;
 
     @BeforeEach

@@ -47,8 +47,11 @@ public class SharedAttributesDeserializer extends StdDeserializer<SharedAttribut
         }
 
         sharedAttributesBuilder.setDateOfBirth(attributes.get("dateOfBirth").asText());
-        sharedAttributesBuilder.setAddress(objectMapper.convertValue(attributes.get("address"), new TypeReference<>() {}));
-        sharedAttributesBuilder.setAddressHistory(objectMapper.convertValue(attributes.get("addressHistory"), new TypeReference<>() {}));
+        sharedAttributesBuilder.setAddress(
+                objectMapper.convertValue(attributes.get("address"), new TypeReference<>() {}));
+        sharedAttributesBuilder.setAddressHistory(
+                objectMapper.convertValue(
+                        attributes.get("addressHistory"), new TypeReference<>() {}));
         return sharedAttributesBuilder.build();
     }
 }
