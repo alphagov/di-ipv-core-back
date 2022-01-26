@@ -1,12 +1,12 @@
 version = 0.1
 
-[PY515.deploy.parameters]
-stack_name = "shared-attributes-PY515"
+[tom.deploy.parameters]
+stack_name = "toms-cloud-stack"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-ec647gpjuo2w"
-s3_prefix = "shared-attributes-PY515"
+s3_prefix = "toms-cloud-stack"
 region = "eu-west-2"
-capabilities = "CAPABILITY_IAM CAPABILITY_AUTO_EXPAND"
-parameter_overrides = "Environment=\"PY515\""
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=\"toms\""
 
 [dev.deploy.parameters]
 stack_name = "ipv-core-back-development"
