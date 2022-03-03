@@ -20,6 +20,8 @@ Resources:
         MultiplyFunction: !GetAtt MultiplyFunction.Arn
         SquareFunction: !GetAtt SquareFunction.Arn
         AddFunction: !GetAtt AddFunction.Arn
+        BiggerThanFunction: !GetAtt BiggerThanFunction.Arn
+        IsItEvenFunction: !GetAtt IsItEvenFunction.Arn
       Policies:
         - LambdaInvokePolicy:
             FunctionName: !Ref MultiplyFunction
@@ -27,6 +29,10 @@ Resources:
             FunctionName: !Ref SquareFunction
         - LambdaInvokePolicy:
             FunctionName: !Ref AddFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref BiggerThanFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref IsItEvenFunction
         - Statement:
           - Sid: GeneralCloudWatchLogPolicy
             Effect: Allow
@@ -84,6 +90,22 @@ Resources:
       FunctionName: "addFunction"
       Handler: "index.handler"
       CodeUri: ./addFunction
+      Runtime: "nodejs12.x"
+
+  BiggerThanFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: "biggerThanFunction"
+      Handler: "index.handler"
+      CodeUri: ./biggerThanFunction
+      Runtime: "nodejs12.x"
+
+  IsItEvenFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: "isItEvenFunction"
+      Handler: "index.handler"
+      CodeUri: ./isItEvenFunction
       Runtime: "nodejs12.x"
 
 ##########################################################################

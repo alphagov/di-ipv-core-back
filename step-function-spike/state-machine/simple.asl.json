@@ -1,8 +1,8 @@
 {
   "Comment": "Simple state machine calling some lambdas",
-  "StartAt": "Check input values",
+  "StartAt": "Check requested operation",
   "States": {
-    "Check input values": {
+    "Check requested operation": {
       "Type": "Choice",
       "Choices": [
         {
@@ -26,20 +26,57 @@
     "multiply function": {
       "Type": "Task",
       "Resource": "${MultiplyFunction}",
-      "ResultPath": "$.calculation",
-      "End": true
+      "ResultPath": "$.calculationResult",
+      "Next": "process the calculation result"
     },
     "square function": {
       "Type": "Task",
       "Resource": "${SquareFunction}",
-      "ResultPath": "$.calculation",
-      "End": true
+      "ResultPath": "$.calculationResult",
+      "Next": "process the calculation result"
     },
     "add function": {
       "Type": "Task",
       "Resource": "${AddFunction}",
-      "ResultPath": "$.calculation",
-      "End": true
+      "ResultPath": "$.calculationResult",
+      "Next": "process the calculation result"
+    },
+    "process the calculation result": {
+      "Type": "Parallel",
+      "End": true,
+      "ResultPath": "$.finalChecks",
+      "Branches": [
+        {
+          "StartAt": "is it bigger than 10",
+          "States": {
+            "is it bigger than 10": {
+              "Type": "Task",
+              "Resource": "${BiggerThanFunction}",
+              "Parameters": {
+                "calculationResult.$": "$.calculationResult"
+              },
+              "ResultPath": "$.result.isItBiggerThan10",
+              "OutputPath": "$.result",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "is it even",
+          "States": {
+            "is it even": {
+              "Type": "Task",
+              "Resource": "${IsItEvenFunction}",
+              "Parameters": {
+                "calculationResult.$": "$.calculationResult"
+              },
+              "ResultPath": "$.result.isItEven",
+              "OutputPath": "$.result",
+              "End": true
+            }
+          }
+        }
+      ]
     }
   }
 }
