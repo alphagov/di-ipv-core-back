@@ -1,10 +1,12 @@
 exports.handler =  async function(event, context) {
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
-  const A = event.A
+  const numbers = event.numbers
 
-  if (!A) {
-    throw new Error('Must provide an input number in field "A"')
+  if (!numbers) {
+    throw new Error('Must provide an input field "numbers"')
   }
 
-  return { "result": A ** 2 }
+  return numbers.reduce( (total, n) => {
+    return total + (n ** 2)
+  }, 0)
 }

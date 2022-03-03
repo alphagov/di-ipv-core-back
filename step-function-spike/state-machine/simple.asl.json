@@ -6,17 +6,19 @@
       "Type": "Choice",
       "Choices": [
         {
-          "And" : [
-            {
-              "Variable": "$.A",
-              "IsPresent": true
-            },
-            {
-              "Variable": "$.B",
-              "IsPresent": true
-            }
-          ],
+          "Variable": "$.operation",
+          "StringEquals": "multiply",
           "Next": "multiply function"
+        },
+        {
+          "Variable": "$.operation",
+          "StringEquals": "square",
+          "Next": "square function"
+        },
+        {
+          "Variable": "$.operation",
+          "StringEquals": "add",
+          "Next": "add function"
         }
       ],
       "Default": "square function"
@@ -24,13 +26,19 @@
     "multiply function": {
       "Type": "Task",
       "Resource": "${MultiplyFunction}",
-      "Next": "square function",
-      "ResultPath": "$"
+      "ResultPath": "$.calculation",
+      "End": true
     },
     "square function": {
       "Type": "Task",
       "Resource": "${SquareFunction}",
-      "ResultPath": "$",
+      "ResultPath": "$.calculation",
+      "End": true
+    },
+    "add function": {
+      "Type": "Task",
+      "Resource": "${AddFunction}",
+      "ResultPath": "$.calculation",
       "End": true
     }
   }

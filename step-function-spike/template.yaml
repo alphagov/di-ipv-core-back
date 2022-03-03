@@ -19,11 +19,14 @@ Resources:
       DefinitionSubstitutions:
         MultiplyFunction: !GetAtt MultiplyFunction.Arn
         SquareFunction: !GetAtt SquareFunction.Arn
+        AddFunction: !GetAtt AddFunction.Arn
       Policies:
         - LambdaInvokePolicy:
             FunctionName: !Ref MultiplyFunction
         - LambdaInvokePolicy:
             FunctionName: !Ref SquareFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref AddFunction
         - Statement:
           - Sid: GeneralCloudWatchLogPolicy
             Effect: Allow
@@ -73,6 +76,14 @@ Resources:
       FunctionName: "squareFunction"
       Handler: "index.handler"
       CodeUri: ./squareFunction
+      Runtime: "nodejs12.x"
+
+  AddFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: "addFunction"
+      Handler: "index.handler"
+      CodeUri: ./addFunction
       Runtime: "nodejs12.x"
 
 ##########################################################################

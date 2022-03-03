@@ -3,11 +3,12 @@ exports.handler =  async function(event, context) {
 
   const numbers = event.numbers
 
+
   if (!numbers) {
     throw new Error('must provide input field "numbers"')
   }
 
   return numbers.reduce((total, n) => {
-    return n * total
-  }, 1)
+    return n + total
+  }, 0)
 }
