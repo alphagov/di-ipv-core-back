@@ -1,0 +1,37 @@
+{
+  "Comment": "Simple state machine calling some lambdas",
+  "StartAt": "Check input values",
+  "States": {
+    "Check input values": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And" : [
+            {
+              "Variable": "$.A",
+              "IsPresent": true
+            },
+            {
+              "Variable": "$.B",
+              "IsPresent": true
+            }
+          ],
+          "Next": "multiply function"
+        }
+      ],
+      "Default": "square function"
+    },
+    "multiply function": {
+      "Type": "Task",
+      "Resource": "${MultiplyFunction}",
+      "Next": "square function",
+      "ResultPath": "$"
+    },
+    "square function": {
+      "Type": "Task",
+      "Resource": "${SquareFunction}",
+      "ResultPath": "$",
+      "End": true
+    }
+  }
+}
