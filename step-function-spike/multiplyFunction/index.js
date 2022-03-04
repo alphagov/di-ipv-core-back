@@ -7,7 +7,5 @@ exports.handler =  async function(event, context) {
     throw new Error('must provide input field "numbers"')
   }
 
-  return numbers.reduce((total, n) => {
-    return n * total
-  }, 1)
+  return numbers.reduce((total, n) => total * n, 1)
 }
