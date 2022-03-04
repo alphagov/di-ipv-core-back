@@ -121,6 +121,15 @@ Resources:
           Parameters:
             Location: 'api.yaml'
 
+#  ApiforSyncWF:
+#    Type: AWS::Serverless::Api
+#    Properties:
+#      StageName: 'dev'
+#      DefinitionBody:
+#        'Fn::Transform':
+#          Name: 'AWS::Include'
+#          Parameters:
+#            Location: 'api_2.yaml'
 
 ##########################################################################
 #   Roles                                                               #

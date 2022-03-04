@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  step-function-spike
+
+Resources:
+  RestApi:
+      Type: AWS::Serverless::Api
+      Properties:
+        Name: 'PYI-765-single-lambda'
+        StageName: 'dev'
+
+  CalculationFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: "calculationFunction"
+      Handler: "index.handler"
+      CodeUri: ./calculationFunction
+      Runtime: "nodejs12.x"
+      Events:
+        RestApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: RestApi
+            Path: /calculate
+            Method: POST
+
