@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS SAM CLI Nested Stack for Auto Dependency Layer Creation
+Metadata:
+  SamCliInfo: 1.40.0
+  key: AWS SAM CLI sync command
+Outputs:
+  IPVAccessTokenFunction9d670167DepLayer:
+    Value:
+      Ref: IPVAccessTokenFunction9d670167DepLayer
+  IPVAuthorizationFunction1757f0fbDepLayer:
+    Value:
+      Ref: IPVAuthorizationFunction1757f0fbDepLayer
+  IPVCredentialIssuerConfig8760864eDepLayer:
+    Value:
+      Ref: IPVCredentialIssuerConfig8760864eDepLayer
+  IPVCredentialIssuerFunction41417d6fDepLayer:
+    Value:
+      Ref: IPVCredentialIssuerFunction41417d6fDepLayer
+  IPVIssuedCredentials8a02cb67DepLayer:
+    Value:
+      Ref: IPVIssuedCredentials8a02cb67DepLayer
+  IPVSessionFunctionf68ac888DepLayer:
+    Value:
+      Ref: IPVSessionFunctionf68ac888DepLayer
+  IPVSharedAttributesFunction70501550DepLayer:
+    Value:
+      Ref: IPVSharedAttributesFunction70501550DepLayer
+  IPVUserIdentityFunction9fe583c4DepLayer:
+    Value:
+      Ref: IPVUserIdentityFunction9fe583c4DepLayer
+Resources:
+  IPVAccessTokenFunction9d670167DepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVAccessTokenFunction9d670167DepLayer
+      Description: Auto created layer for dependencies of function IPVAccessTokenFunction
+      LayerName: ipv-core-back-de69374ba4-IPVAccessTokenFunction9d670167-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVAuthorizationFunction1757f0fbDepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVAuthorizationFunction1757f0fbDepLayer
+      Description: Auto created layer for dependencies of function IPVAuthorizationFunction
+      LayerName: ipv-core-back-de69374ba4-IPVAuthorizationFuncti1757f0fb-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVCredentialIssuerConfig8760864eDepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVCredentialIssuerConfig8760864eDepLayer
+      Description: Auto created layer for dependencies of function IPVCredentialIssuerConfig
+      LayerName: ipv-core-back-de69374ba4-IPVCredentialIssuerCon8760864e-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVCredentialIssuerFunction41417d6fDepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVCredentialIssuerFunction41417d6fDepLayer
+      Description: Auto created layer for dependencies of function IPVCredentialIssuerFunction
+      LayerName: ipv-core-back-de69374ba4-IPVCredentialIssuerFun41417d6f-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVIssuedCredentials8a02cb67DepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVIssuedCredentials8a02cb67DepLayer
+      Description: Auto created layer for dependencies of function IPVIssuedCredentials
+      LayerName: ipv-core-back-de69374ba4-IPVIssuedCredentials8a02cb67-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVSessionFunctionf68ac888DepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVSessionFunctionf68ac888DepLayer
+      Description: Auto created layer for dependencies of function IPVSessionFunction
+      LayerName: ipv-core-back-de69374ba4-IPVSessionFunctionf68ac888-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVSharedAttributesFunction70501550DepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVSharedAttributesFunction70501550DepLayer
+      Description: Auto created layer for dependencies of function IPVSharedAttributesFunction
+      LayerName: ipv-core-back-de69374ba4-IPVSharedAttributesFun70501550-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  IPVUserIdentityFunction9fe583c4DepLayer:
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      CompatibleRuntimes:
+      - java11
+      ContentUri: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/IPVUserIdentityFunction9fe583c4DepLayer
+      Description: Auto created layer for dependencies of function IPVUserIdentityFunction
+      LayerName: ipv-core-back-de69374ba4-IPVUserIdentityFunctio9fe583c4-DepLayer
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+Transform: AWS::Serverless-2016-10-31

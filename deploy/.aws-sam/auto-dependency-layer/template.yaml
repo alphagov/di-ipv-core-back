@@ -1,0 +1,524 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'ipv-core-back
+
+  '
+Globals:
+  Function:
+    Timeout: 40
+Parameters:
+  Environment:
+    Type: String
+Resources:
+  IPVCoreAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name:
+        Fn::Sub: IPV Core API Gateway ${Environment}
+      StageName:
+        Fn::Sub: ${Environment}
+  IPVSharedAttributesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ipv-shared-attributes-${Environment}
+      Handler: uk.gov.di.ipv.core.sharedattributes.SharedAttributesHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVSharedAttributesFunction
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: shared-attributes-${Environment}
+          USER_ISSUED_CREDENTIALS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - UserIssuedCredentialsTable
+                - Arn
+          SHARED_ATTRIBUTES_SIGNING_KEY_ID_PARAM:
+            Fn::Sub: /${Environment}/core/self/sharedAttributesJwtSigningKeyId
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: UserIssuedCredentialsTable
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/self/sharedAttributesJwtSigningKeyId
+      - Statement:
+        - Sid: kmsSigningKeyPermission
+          Effect: Allow
+          Action:
+          - kms:sign
+          Resource:
+          - arn:aws:kms:eu-west-2:130355686670:key/3efe7d7f-5a08-4ea3-90c3-11b24ec3b375
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /shared-attributes
+            Method: GET
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVSharedAttributesFunction70501550DepLayer
+    Metadata:
+      SamResourceId: IPVSharedAttributesFunction
+  IPVAccessTokenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ipv-access-token-${Environment}
+      Handler: uk.gov.di.ipv.core.accesstoken.AccessTokenHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVAccessTokenFunction
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: access-token-${Environment}
+          AUTH_CODES_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - AuthCodesTable
+                - Arn
+          ACCESS_TOKENS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - AccessTokensTable
+                - Arn
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: AccessTokensTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: AuthCodesTable
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/clients/*
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/self/audienceForClients
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/self/maxAllowedAuthClientTtl
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /token
+            Method: POST
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVAccessTokenFunction9d670167DepLayer
+    Metadata:
+      SamResourceId: IPVAccessTokenFunction
+  IPVAuthorizationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ipv-authorization-${Environment}
+      Handler: uk.gov.di.ipv.core.authorization.AuthorizationHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVAuthorizationFunction
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: authorization-${Environment}
+          AUTH_CODES_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - AuthCodesTable
+                - Arn
+      Policies:
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: AuthCodesTable
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: AuthCodesTable
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/*
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /authorize
+            Method: GET
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVAuthorizationFunction1757f0fbDepLayer
+    Metadata:
+      SamResourceId: IPVAuthorizationFunction
+  IPVSessionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ipv-session-${Environment}
+      Handler: uk.gov.di.ipv.core.session.IpvSessionHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVSessionFunction
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: session-${Environment}
+          IPV_SESSIONS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - SessionsTable
+                - Arn
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: SessionsTable
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: SessionsTable
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /ipv-session
+            Method: POST
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVSessionFunctionf68ac888DepLayer
+    Metadata:
+      SamResourceId: IPVSessionFunction
+  IPVCredentialIssuerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ipv-credential-issuer-${Environment}
+      Handler: uk.gov.di.ipv.core.credentialissuer.CredentialIssuerHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVCredentialIssuerFunction
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          CREDENTIAL_ISSUERS_CONFIG_PARAM_PREFIX:
+            Fn::Sub: /${Environment}/core/credentialIssuers
+          USER_ISSUED_CREDENTIALS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - UserIssuedCredentialsTable
+                - Arn
+          SHARED_ATTRIBUTES_SIGNING_KEY_ID_PARAM:
+            Fn::Sub: /${Environment}/core/self/sharedAttributesJwtSigningKeyId
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: credential-issuer-${Environment}
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: UserIssuedCredentialsTable
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/credentialIssuers/*
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/credentialIssuers
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/self/sharedAttributesJwtSigningKeyId
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/self/jwtTtlSeconds
+      - Statement:
+        - Sid: kmsSigningKeyPermission
+          Effect: Allow
+          Action:
+          - kms:sign
+          Resource:
+          - arn:aws:kms:eu-west-2:130355686670:key/3efe7d7f-5a08-4ea3-90c3-11b24ec3b375
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /request-evidence
+            Method: POST
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVCredentialIssuerFunction41417d6fDepLayer
+    Metadata:
+      SamResourceId: IPVCredentialIssuerFunction
+  IPVUserIdentityFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ipv-user-identity-${Environment}
+      Handler: uk.gov.di.ipv.core.useridentity.UserIdentityHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVUserIdentityFunction
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: user-identity-${Environment}
+          ACCESS_TOKENS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - AccessTokensTable
+                - Arn
+          USER_ISSUED_CREDENTIALS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - UserIssuedCredentialsTable
+                - Arn
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: UserIssuedCredentialsTable
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: UserIssuedCredentialsTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: AccessTokensTable
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /user-identity
+            Method: GET
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVUserIdentityFunction9fe583c4DepLayer
+    Metadata:
+      SamResourceId: IPVUserIdentityFunction
+  IPVCredentialIssuerConfig:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: credential-issuer-config-${Environment}
+      Handler: uk.gov.di.ipv.core.credentialissuerconfig.CredentialIssuerConfigHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVCredentialIssuerConfig
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: credential-issuer-config-${Environment}
+          CREDENTIAL_ISSUERS_CONFIG_PARAM_PREFIX:
+            Fn::Sub: /${Environment}/core/credentialIssuers
+      Policies:
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/credentialIssuers/*
+      - SSMParameterReadPolicy:
+          ParameterName:
+            Fn::Sub: ${Environment}/core/credentialIssuers
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /request-config
+            Method: GET
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVCredentialIssuerConfig8760864eDepLayer
+    Metadata:
+      SamResourceId: IPVCredentialIssuerConfig
+  IPVIssuedCredentials:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: issued-credentials-${Environment}
+      Handler: uk.gov.di.ipv.core.issuedcredentials.IssuedCredentialsHandler::handleRequest
+      Runtime: java11
+      PackageType: Zip
+      CodeUri: IPVIssuedCredentials
+      Architectures:
+      - x86_64
+      MemorySize: 512
+      Tracing: Active
+      Environment:
+        Variables:
+          ENVIRONMENT:
+            Fn::Sub: ${Environment}
+          POWERTOOLS_SERVICE_NAME:
+            Fn::Sub: issued-credentials-${Environment}
+          USER_ISSUED_CREDENTIALS_TABLE_NAME:
+            Fn::Select:
+            - 1
+            - Fn::Split:
+              - /
+              - Fn::GetAtt:
+                - UserIssuedCredentialsTable
+                - Arn
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: UserIssuedCredentialsTable
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: UserIssuedCredentialsTable
+      Events:
+        IPVCoreAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: IPVCoreAPI
+            Path: /issued-credentials
+            Method: GET
+      Layers:
+      - Fn::GetAtt:
+        - AwsSamAutoDependencyLayerNestedStack
+        - Outputs.IPVIssuedCredentials8a02cb67DepLayer
+    Metadata:
+      SamResourceId: IPVIssuedCredentials
+  UserIssuedCredentialsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: user-issued-credentials-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: ipvSessionId
+        AttributeType: S
+      - AttributeName: credentialIssuer
+        AttributeType: S
+      KeySchema:
+      - AttributeName: ipvSessionId
+        KeyType: HASH
+      - AttributeName: credentialIssuer
+        KeyType: RANGE
+  AuthCodesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: auth-codes-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: authCode
+        AttributeType: S
+      KeySchema:
+      - AttributeName: authCode
+        KeyType: HASH
+  AccessTokensTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: access-tokens-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: accessToken
+        AttributeType: S
+      KeySchema:
+      - AttributeName: accessToken
+        KeyType: HASH
+  SessionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: sessions-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: ipvSessionId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: ipvSessionId
+        KeyType: HASH
+  AwsSamAutoDependencyLayerNestedStack:
+    DeletionPolicy: Delete
+    Metadata:
+      CreatedBy: AWS SAM CLI sync command
+    Properties:
+      TemplateURL: /Users/sunildussoye/work/di-ipv-core-back/deploy/.aws-sam/auto-dependency-layer/nested_template.yaml
+    Type: AWS::CloudFormation::Stack
+Outputs:
+  IPVCoreAPIGatewayID:
+    Description: Core Back API Gateway ID
+    Export:
+      Name:
+        Fn::Sub: ${AWS::StackName}-IPVCoreAPIGatewayID
+    Value:
+      Ref: IPVCoreAPI

@@ -13,9 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.lambda.powertools.tracing.Tracing;
 import uk.gov.di.ipv.core.library.annotations.ExcludeFromGeneratedCoverageReport;
+import uk.gov.di.ipv.core.library.domain.BirthDate;
 import uk.gov.di.ipv.core.library.domain.ErrorResponse;
+import uk.gov.di.ipv.core.library.domain.NameParts;
 import uk.gov.di.ipv.core.library.domain.SharedAttributes;
 import uk.gov.di.ipv.core.library.domain.SharedAttributesResponse;
+import uk.gov.di.ipv.core.library.domain.SharedAttributesResponseNew;
 import uk.gov.di.ipv.core.library.exceptions.HttpResponseExceptionWithErrorBody;
 import uk.gov.di.ipv.core.library.helpers.ApiGatewayResponseGenerator;
 import uk.gov.di.ipv.core.library.helpers.JwtHelper;
@@ -25,8 +28,14 @@ import uk.gov.di.ipv.core.library.service.ConfigurationService;
 import uk.gov.di.ipv.core.library.service.UserIdentityService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import static uk.gov.di.ipv.core.library.domain.SharedAttributesResponseNew.buildBirthDates;
+import static uk.gov.di.ipv.core.library.domain.SharedAttributesResponseNew.buildNameParts;
 
 public class SharedAttributesHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -95,8 +104,11 @@ public class SharedAttributesHandler
             SharedAttributesResponse sharedAttributesResponse)
             throws HttpResponseExceptionWithErrorBody {
         try {
+            //TOdo - new
+            SharedAttributesResponseNew sharedAttributesResponseNew =convertResponse(sharedAttributesResponse);
+
             return JwtHelper.createSignedJwtFromObject(
-                    Map.of(CLAIMS_CLAIM, Map.of(VC_HTTP_API_CLAIM, sharedAttributesResponse)),
+                    Map.of(CLAIMS_CLAIM, Map.of(VC_HTTP_API_CLAIM, sharedAttributesResponseNew)),  //TOdo set to New
                     signer);
         } catch (JOSEException e) {
             LOGGER.error("Failed to sign Shared Attributes: {}", e.getMessage());
@@ -115,4 +127,19 @@ public class SharedAttributesHandler
         }
         return ipvSessionId;
     }
+
+    private SharedAttributesResponseNew convertResponse(SharedAttributesResponse sharedAttributesResponse) {
+        Set<NameParts> name = buildNameParts(sharedAttributesResponse.getNames());
+        Set<BirthDate> bday = buildBirthDates(sharedAttributesResponse.getDateOfBirths());
+        Set<Map<String, String>> addresses = new HashSet<>();
+        Map<String,String> s = new HashMap<>();
+        s.put("postcode","S5 6un");
+        addresses.add(s);
+        Set<Map<String, String>> addressHistory = new HashSet<>();
+        addressHistory.add(s);
+        return new SharedAttributesResponseNew(name,bday,addresses,addressHistory);
+    }
+
+
+
 }
