@@ -1,23 +1,27 @@
 package uk.gov.di.ipv.core.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import uk.gov.di.ipv.core.library.annotations.ExcludeFromGeneratedCoverageReport;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @ExcludeFromGeneratedCoverageReport
 public class NameParts {
     private String value;
     private String type;
-   /* private String validFrom;
-    private String validUntil;*/
+    private String validFrom;
+    private String validUntil;
 
-   /* NameParts() {
+    public NameParts() {
 
-    }*/
-   // todo - do we receive validFrom & validUntil
+    }
+
+    // todo - do we receive validFrom & validUntil
     public NameParts(String value, String type, String validFrom, String validUntil) {
         this.value = value;
         this.type = type;
-      /*  this.validFrom = validFrom;
-        this.validUntil = validUntil;*/
+        this.validFrom = validFrom;
+        this.validUntil = validUntil;
     }
 
     public NameParts(String value, String type) {
@@ -41,7 +45,7 @@ public class NameParts {
         this.type = type;
     }
 
-   /* public String getValidFrom() {
+    public String getValidFrom() {
         return validFrom;
     }
 
@@ -54,18 +58,19 @@ public class NameParts {
     }
 
     public void setValidUntil(String validUntil) {
-        this.validUntil = validUntil;*/
-
+        this.validUntil = validUntil;
+    }
 
     @Override
     public String toString() {
         return "NameParts{" +
                 "value='" + value + '\'' +
                 ", type='" + type + '\'' +
+                ", validFrom='" + validFrom + '\'' +
+                ", validUntil='" + validUntil + '\'' +
                 '}';
     }
 }
 
-    //todo for testing 7 needs removing
 
 

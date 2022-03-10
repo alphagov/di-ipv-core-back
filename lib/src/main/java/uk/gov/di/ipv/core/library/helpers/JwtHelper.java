@@ -33,8 +33,18 @@ public class JwtHelper {
     private static <T> JWTClaimsSet generateClaims(T claimInput) {
         var claimsBuilder = new JWTClaimsSet.Builder();
 
+
+        Map map = mapper.convertValue(claimInput, Map.class);  // checking
+
+
         mapper.convertValue(claimInput, Map.class)
-                .forEach((key, value) -> claimsBuilder.claim((String) key, value));
+
+                .forEach((key, value) ->
+                { System.out.println(key + "    " + value);
+
+                        claimsBuilder.claim((String) key, value);
+                });
+
 
         return claimsBuilder.build();
     }

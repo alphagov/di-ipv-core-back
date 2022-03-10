@@ -13,10 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.lambda.powertools.tracing.Tracing;
 import uk.gov.di.ipv.core.library.annotations.ExcludeFromGeneratedCoverageReport;
-import uk.gov.di.ipv.core.library.domain.BirthDate;
 import uk.gov.di.ipv.core.library.domain.ErrorResponse;
-import uk.gov.di.ipv.core.library.domain.NameParts;
-import uk.gov.di.ipv.core.library.domain.SharedAttributes;
+import uk.gov.di.ipv.core.library.domain.SharedAttributesNew;
 import uk.gov.di.ipv.core.library.domain.SharedAttributesResponse;
 import uk.gov.di.ipv.core.library.domain.SharedAttributesResponseNew;
 import uk.gov.di.ipv.core.library.exceptions.HttpResponseExceptionWithErrorBody;
@@ -28,14 +26,8 @@ import uk.gov.di.ipv.core.library.service.ConfigurationService;
 import uk.gov.di.ipv.core.library.service.UserIdentityService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static uk.gov.di.ipv.core.library.domain.SharedAttributesResponseNew.buildBirthDates;
-import static uk.gov.di.ipv.core.library.domain.SharedAttributesResponseNew.buildNameParts;
 
 public class SharedAttributesHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -69,7 +61,7 @@ public class SharedAttributesHandler
             APIGatewayProxyRequestEvent input, Context context) {
         try {
             String ipvSessionId = getIpvSessionId(input.getHeaders());
-            SharedAttributesResponse sharedAttributesResponse = getSharedAttributes(ipvSessionId);
+            SharedAttributesResponseNew sharedAttributesResponse = getSharedAttributes(ipvSessionId);
 
             SignedJWT signedJWT = signSharedAttributesResponse(sharedAttributesResponse);
 
@@ -81,34 +73,34 @@ public class SharedAttributesHandler
     }
 
     @Tracing
-    private SharedAttributesResponse getSharedAttributes(String ipvSessionId)
+    private SharedAttributesResponseNew getSharedAttributes(String ipvSessionId)
             throws HttpResponseExceptionWithErrorBody {
         Map<String, String> credentials =
                 userIdentityService.getUserIssuedCredentials(ipvSessionId);
 
-        List<SharedAttributes> sharedAttributes = new ArrayList<>();
+        //List<SharedAttributes> sharedAttributesold = new ArrayList<>();
+        List<SharedAttributesNew> sharedAttributesNew = new ArrayList<>();
         for (String credential : credentials.values()) {
             try {
-                sharedAttributes.add(mapper.readValue(credential, SharedAttributes.class));
+                sharedAttributesNew.add(mapper.readValue(credential, SharedAttributesNew.class));
             } catch (JsonProcessingException e) {
                 LOGGER.error("Failed to get Shared Attributes: {}", e.getMessage());
                 throw new HttpResponseExceptionWithErrorBody(
                         500, ErrorResponse.FAILED_TO_GET_SHARED_ATTRIBUTES);
             }
         }
-        return SharedAttributesResponse.from(sharedAttributes);
+        // to do just for testing
+        System.out.println(sharedAttributesNew);
+        return SharedAttributesResponseNew.from(sharedAttributesNew);
     }
 
     @Tracing
     private SignedJWT signSharedAttributesResponse(
-            SharedAttributesResponse sharedAttributesResponse)
+            SharedAttributesResponseNew sharedAttributesResponse)
             throws HttpResponseExceptionWithErrorBody {
         try {
-            //TOdo - new
-            SharedAttributesResponseNew sharedAttributesResponseNew =convertResponse(sharedAttributesResponse);
-
             return JwtHelper.createSignedJwtFromObject(
-                    Map.of(CLAIMS_CLAIM, Map.of(VC_HTTP_API_CLAIM, sharedAttributesResponseNew)),  //TOdo set to New
+                    Map.of(CLAIMS_CLAIM, Map.of(VC_HTTP_API_CLAIM, sharedAttributesResponse)),
                     signer);
         } catch (JOSEException e) {
             LOGGER.error("Failed to sign Shared Attributes: {}", e.getMessage());
@@ -127,19 +119,5 @@ public class SharedAttributesHandler
         }
         return ipvSessionId;
     }
-
-    private SharedAttributesResponseNew convertResponse(SharedAttributesResponse sharedAttributesResponse) {
-        Set<NameParts> name = buildNameParts(sharedAttributesResponse.getNames());
-        Set<BirthDate> bday = buildBirthDates(sharedAttributesResponse.getDateOfBirths());
-        Set<Map<String, String>> addresses = new HashSet<>();
-        Map<String,String> s = new HashMap<>();
-        s.put("postcode","S5 6un");
-        addresses.add(s);
-        Set<Map<String, String>> addressHistory = new HashSet<>();
-        addressHistory.add(s);
-        return new SharedAttributesResponseNew(name,bday,addresses,addressHistory);
-    }
-
-
 
 }
