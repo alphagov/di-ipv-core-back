@@ -9,19 +9,18 @@ import java.util.Set;
 
 public class SharedAttributesResponseNew {
 
-    private final List<Map<String,List<NameParts>>> name ;
+    private final Set<NameNew> name;
     private final Set<BirthDate> birthDate;
     private final Set<Address> address;
 
-    public SharedAttributesResponseNew(List<Map<String,List<NameParts>>> name, Set<BirthDate> birthDate, Set<Address> address) {
+    public SharedAttributesResponseNew(Set<NameNew> name, Set<BirthDate> birthDate, Set<Address> address) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
     }
 
-    public Optional<List<Map<String,List<NameParts>>>> getName() {
-
-        return Optional.ofNullable(name);
+    public Set<NameNew> getName() {
+        return name;
     }
 
     public Set<BirthDate> getBirthDate() {
@@ -34,9 +33,9 @@ public class SharedAttributesResponseNew {
 
 
     public static SharedAttributesResponseNew from(List<SharedAttributesNew> sharedAttributes) {
-        List<Map<String,List<NameParts>>> name = new ArrayList<>();
+        Set<NameNew> name = new HashSet<>();
         Set<BirthDate> birthDate = new HashSet<>();
-        Set<Address> address =  new HashSet<>();;
+        Set<Address> address =  new HashSet<>();
 
         sharedAttributes.forEach(
                 sharedAttribute -> {

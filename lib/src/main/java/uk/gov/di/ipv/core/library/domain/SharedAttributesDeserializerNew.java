@@ -39,15 +39,16 @@ public class SharedAttributesDeserializerNew extends StdDeserializer<SharedAttri
 
         JsonNode nameNode = node.get("name");
         if (nameNode != null) {
-            List<Map<String, List<NameParts>>> nameList = new ArrayList<>();
+            Set<NameNew> nameList = new HashSet<>();
             List<NameParts> namePartsList = new ArrayList<>();
-            Map<String, List<NameParts>> mapOfName = new HashMap<>();
+
             for (JsonNode jo : nameNode) {
                 JsonNode nameParts = jo.get("nameParts");
                 nameParts.forEach(namePart -> namePartsList.add(objectMapper.convertValue(namePart, NameParts.class)));
             }
-            mapOfName.put("name", namePartsList);
-            nameList.add(mapOfName);
+
+            NameNew names = new NameNew(namePartsList);
+            nameList.add(names);
             sharedAttributesNewBuilder.setName(nameList);
         }
 

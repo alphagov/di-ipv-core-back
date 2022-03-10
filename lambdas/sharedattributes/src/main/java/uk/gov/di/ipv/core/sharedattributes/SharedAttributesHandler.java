@@ -72,7 +72,6 @@ public class SharedAttributesHandler
         }
     }
 
-    @Tracing
     private SharedAttributesResponseNew getSharedAttributes(String ipvSessionId)
             throws HttpResponseExceptionWithErrorBody {
         Map<String, String> credentials =

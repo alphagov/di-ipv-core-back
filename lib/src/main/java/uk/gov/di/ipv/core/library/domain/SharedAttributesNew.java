@@ -12,7 +12,7 @@ import java.util.Set;
 @JsonDeserialize(using = SharedAttributesDeserializerNew.class)
 public class SharedAttributesNew {
 
-    private List<Map<String,List<NameParts>>> name ;
+    private Set<NameNew> name;
     private Set<BirthDate> birthDate;
     private Set<Address> address;
 
@@ -20,7 +20,7 @@ public class SharedAttributesNew {
 
     }
 
-    public SharedAttributesNew(List<Map<String,List<NameParts>>> name, Set<BirthDate> birthDate, Set<Address> address) {
+    public SharedAttributesNew(Set<NameNew> name, Set<BirthDate> birthDate, Set<Address> address) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
@@ -30,7 +30,7 @@ public class SharedAttributesNew {
         return new SharedAttributesNew();
     }
 
-    public Optional<List<Map<String,List<NameParts>>>> getName() {
+    public Optional<Set<NameNew>> getName() {
         return Optional.ofNullable(name);
     }
 
@@ -43,7 +43,7 @@ public class SharedAttributesNew {
     }
 
     public static class Builder {
-        private List<Map<String,List<NameParts>>> name ;
+        private Set<NameNew> name;
         private Set<BirthDate> birthDate;
         private Set<Address> address;
 
@@ -57,7 +57,7 @@ public class SharedAttributesNew {
             return this;
         }
 
-        public Builder setName(List<Map<String,List<NameParts>>> name) {
+        public Builder setName(Set<NameNew> name) {
             this.name = name;
             return this;
         }
