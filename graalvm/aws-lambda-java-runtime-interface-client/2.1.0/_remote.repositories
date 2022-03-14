@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Mar 14 14:38:36 GMT 2022
+aws-lambda-java-runtime-interface-client-2.1.0.jar>=
+aws-lambda-java-runtime-interface-client-2.1.0.pom>=
