@@ -79,7 +79,9 @@ test {
 	environment "LAMBDA_TASK_ROOT", "handler"
 	useJUnitPlatform ()
 	finalizedBy jacocoTestReport
+	jvmArgs '-agentlib:native-image-agent=access-filter-file=src/main/resources/access-filters.json,config-output-dir=src/main/resources/META-INF/native-image'
 }
+
 
 jacocoTestReport {
 	dependsOn test
