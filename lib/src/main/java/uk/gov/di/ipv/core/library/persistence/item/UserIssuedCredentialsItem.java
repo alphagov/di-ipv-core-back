@@ -6,7 +6,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortK
 
 import java.time.LocalDateTime;
 
-@DynamoDbBean
+//@DynamoDbBean
 public class UserIssuedCredentialsItem {
 
     private String ipvSessionId;
@@ -14,7 +14,7 @@ public class UserIssuedCredentialsItem {
     private String credential;
     private LocalDateTime dateCreated;
 
-    @DynamoDbPartitionKey
+//    @DynamoDbPartitionKey
     public String getIpvSessionId() {
         return ipvSessionId;
     }
@@ -23,7 +23,7 @@ public class UserIssuedCredentialsItem {
         this.ipvSessionId = ipvSessionId;
     }
 
-    @DynamoDbSortKey
+//    @DynamoDbSortKey
     public String getCredentialIssuer() {
         return credentialIssuer;
     }

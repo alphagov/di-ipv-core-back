@@ -4,11 +4,14 @@ import com.nimbusds.oauth2.sdk.AccessTokenResponse;
 import com.nimbusds.oauth2.sdk.ErrorObject;
 import com.nimbusds.oauth2.sdk.GrantType;
 import com.nimbusds.oauth2.sdk.OAuth2Error;
+import com.nimbusds.oauth2.sdk.Scope;
 import com.nimbusds.oauth2.sdk.TokenRequest;
 import com.nimbusds.oauth2.sdk.TokenResponse;
 import com.nimbusds.oauth2.sdk.token.AccessToken;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 import com.nimbusds.oauth2.sdk.token.Tokens;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticTableSchema;
 import uk.gov.di.ipv.core.library.annotations.ExcludeFromGeneratedCoverageReport;
 import uk.gov.di.ipv.core.library.persistence.DataStore;
 import uk.gov.di.ipv.core.library.persistence.item.AccessTokenItem;
@@ -16,9 +19,22 @@ import uk.gov.di.ipv.core.library.validation.ValidationResult;
 
 import java.util.Objects;
 
+import static software.amazon.awssdk.enhanced.dynamodb.mapper.StaticAttributeTags.primaryPartitionKey;
+
 public class AccessTokenService {
     private final DataStore<AccessTokenItem> dataStore;
     private final ConfigurationService configurationService;
+
+    static final TableSchema<AccessTokenItem> ACCESS_TOKEN_ITEM_TABLE_SCHEMA = StaticTableSchema.builder(AccessTokenItem.class)
+            .newItemSupplier(AccessTokenItem::new)
+            .addAttribute(String.class, a -> a.name("accessToken")
+                    .getter(AccessTokenItem::getAccessToken)
+                    .setter(AccessTokenItem::setAccessToken)
+                    .tags(primaryPartitionKey()))
+            .addAttribute(String.class, a -> a.name("ipvSessionId")
+                    .getter(AccessTokenItem::getIpvSessionId)
+                    .setter(AccessTokenItem::setIpvSessionId))
+            .build();
 
     @ExcludeFromGeneratedCoverageReport
     public AccessTokenService(ConfigurationService configurationService) {
@@ -27,7 +43,7 @@ public class AccessTokenService {
         this.dataStore =
                 new DataStore<>(
                         this.configurationService.getAccessTokensTableName(),
-                        AccessTokenItem.class,
+                        ACCESS_TOKEN_ITEM_TABLE_SCHEMA,
                         DataStore.getClient(isRunningLocally),
                         isRunningLocally);
     }

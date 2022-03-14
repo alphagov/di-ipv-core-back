@@ -20,15 +20,15 @@ public class DataStore<T> {
 
     private final DynamoDbEnhancedClient dynamoDbEnhancedClient;
     private final String tableName;
-    private final Class<T> typeParameterClass;
+    private final TableSchema<T> tableSchema;
 
     public DataStore(
             String tableName,
-            Class<T> typeParameterClass,
+            TableSchema<T> tableSchema,
             DynamoDbEnhancedClient dynamoDbEnhancedClient,
             boolean isRunningLocally) {
         this.tableName = tableName;
-        this.typeParameterClass = typeParameterClass;
+        this.tableSchema = tableSchema;
         this.dynamoDbEnhancedClient = dynamoDbEnhancedClient;
         DataStore.isRunningLocally = isRunningLocally;
     }
@@ -97,6 +97,6 @@ public class DataStore<T> {
 
     private DynamoDbTable<T> getTable() {
         return dynamoDbEnhancedClient.table(
-                tableName, TableSchema.fromBean(this.typeParameterClass));
+                tableName, tableSchema);
     }
 }

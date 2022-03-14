@@ -3,12 +3,12 @@ package uk.gov.di.ipv.core.library.persistence.item;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
-@DynamoDbBean
+//@DynamoDbBean
 public class AccessTokenItem {
     private String accessToken;
     private String ipvSessionId;
 
-    @DynamoDbPartitionKey
+//    @DynamoDbPartitionKey
     public String getAccessToken() {
         return accessToken;
     }

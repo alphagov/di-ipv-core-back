@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static uk.gov.di.ipv.core.library.service.AuthorizationCodeService.AUTHORIZATION_CODE_ITEM_TABLE_SCHEMA;
 
 @ExtendWith(MockitoExtension.class)
 class DataStoreTest {
@@ -51,7 +52,7 @@ class DataStoreTest {
         dataStore =
                 new DataStore<>(
                         TEST_TABLE_NAME,
-                        AuthorizationCodeItem.class,
+                        AUTHORIZATION_CODE_ITEM_TABLE_SCHEMA,
                         mockDynamoDbEnhancedClient,
                         false);
     }

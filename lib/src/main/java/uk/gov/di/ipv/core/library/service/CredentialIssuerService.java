@@ -19,6 +19,8 @@ import com.nimbusds.openid.connect.sdk.OIDCTokenResponseParser;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticTableSchema;
 import uk.gov.di.ipv.core.library.annotations.ExcludeFromGeneratedCoverageReport;
 import uk.gov.di.ipv.core.library.domain.ClientAuthClaims;
 import uk.gov.di.ipv.core.library.domain.CredentialIssuerException;
@@ -27,6 +29,7 @@ import uk.gov.di.ipv.core.library.dto.CredentialIssuerConfig;
 import uk.gov.di.ipv.core.library.dto.CredentialIssuerRequestDto;
 import uk.gov.di.ipv.core.library.helpers.JwtHelper;
 import uk.gov.di.ipv.core.library.persistence.DataStore;
+import uk.gov.di.ipv.core.library.persistence.item.AuthorizationCodeItem;
 import uk.gov.di.ipv.core.library.persistence.item.UserIssuedCredentialsItem;
 
 import java.io.IOException;
@@ -36,6 +39,9 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import static software.amazon.awssdk.enhanced.dynamodb.mapper.StaticAttributeTags.primaryPartitionKey;
+import static software.amazon.awssdk.enhanced.dynamodb.mapper.StaticAttributeTags.primarySortKey;
+
 public class CredentialIssuerService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CredentialIssuerService.class);
@@ -43,6 +49,24 @@ public class CredentialIssuerService {
     private final DataStore<UserIssuedCredentialsItem> dataStore;
     private final ConfigurationService configurationService;
     private final JWSSigner signer;
+
+    public static final TableSchema<UserIssuedCredentialsItem> USER_ISSUED_CREDENTIALS_ITEM_TABLE_SCHEMA = StaticTableSchema.builder(UserIssuedCredentialsItem.class)
+            .newItemSupplier(UserIssuedCredentialsItem::new)
+            .addAttribute(String.class, a -> a.name("ipvSessionId")
+                    .getter(UserIssuedCredentialsItem::getIpvSessionId)
+                    .setter(UserIssuedCredentialsItem::setIpvSessionId)
+                    .tags(primaryPartitionKey()))
+            .addAttribute(String.class, a -> a.name("credentialIssuer")
+                    .getter(UserIssuedCredentialsItem::getCredentialIssuer)
+                    .setter(UserIssuedCredentialsItem::setCredentialIssuer)
+                    .tags(primarySortKey()))
+            .addAttribute(String.class, a -> a.name("credential")
+                    .getter(UserIssuedCredentialsItem::getCredential)
+                    .setter(UserIssuedCredentialsItem::setCredential))
+            .addAttribute(LocalDateTime.class, a -> a.name("dateCreated")
+                    .getter(UserIssuedCredentialsItem::getDateCreated)
+                    .setter(UserIssuedCredentialsItem::setDateCreated))
+            .build();
 
     @ExcludeFromGeneratedCoverageReport
     public CredentialIssuerService(ConfigurationService configurationService, JWSSigner signer) {
@@ -52,7 +76,7 @@ public class CredentialIssuerService {
         this.dataStore =
                 new DataStore<>(
                         this.configurationService.getUserIssuedCredentialTableName(),
-                        UserIssuedCredentialsItem.class,
+                        USER_ISSUED_CREDENTIALS_ITEM_TABLE_SCHEMA,
                         DataStore.getClient(isRunningLocally),
                         isRunningLocally);
     }

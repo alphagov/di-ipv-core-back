@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static uk.gov.di.ipv.core.library.service.CredentialIssuerService.USER_ISSUED_CREDENTIALS_ITEM_TABLE_SCHEMA;
+
 public class UserIdentityService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserIdentityService.class);
     private static final String GPG45_SCORE_PARAM_NAME = "gpg45Score";
@@ -29,7 +31,7 @@ public class UserIdentityService {
         this.dataStore =
                 new DataStore<>(
                         this.configurationService.getUserIssuedCredentialTableName(),
-                        UserIssuedCredentialsItem.class,
+                        USER_ISSUED_CREDENTIALS_ITEM_TABLE_SCHEMA,
                         DataStore.getClient(isRunningLocally),
                         isRunningLocally);
     }

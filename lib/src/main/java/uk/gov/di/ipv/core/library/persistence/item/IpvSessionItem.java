@@ -3,13 +3,13 @@ package uk.gov.di.ipv.core.library.persistence.item;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
-@DynamoDbBean
+//@DynamoDbBean
 public class IpvSessionItem {
     private String ipvSessionId;
     private String userState;
     private String creationDateTime;
 
-    @DynamoDbPartitionKey
+//    @DynamoDbPartitionKey
     public String getIpvSessionId() {
         return ipvSessionId;
     }

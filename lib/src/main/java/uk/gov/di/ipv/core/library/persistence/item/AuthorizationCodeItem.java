@@ -3,14 +3,14 @@ package uk.gov.di.ipv.core.library.persistence.item;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
-@DynamoDbBean
+//@DynamoDbBean
 public class AuthorizationCodeItem {
 
     private String authCode;
     private String ipvSessionId;
     private String redirectUrl;
 
-    @DynamoDbPartitionKey
+//    @DynamoDbPartitionKey
     public String getAuthCode() {
         return authCode;
     }
