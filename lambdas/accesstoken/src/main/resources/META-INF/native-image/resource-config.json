@@ -1,0 +1,18 @@
+{
+  "resources":{
+  "includes":[
+    {
+      "pattern":"\\QMETA-INF/services/org.junit.platform.engine.TestEngine\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/services/org.junit.platform.launcher.TestExecutionListener\\E"
+    }, 
+    {
+      "pattern":"\\Qarm64/aws-lambda-runtime-interface-client.glibc.so\\E"
+    }, 
+    {
+      "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+    }
+  ]},
+  "bundles":[]
+}

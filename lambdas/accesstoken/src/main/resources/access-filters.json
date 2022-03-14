@@ -1,0 +1,12 @@
+{
+  "rules": [
+    {"excludeClasses": "org.junit.**"},
+    {"excludeClasses": "org.mockito.**"},
+    {"excludeClasses": "com.github.tomakehurst.**"},
+    {"excludeClasses": "uk.org.webcompere.**"},
+    {"excludeClasses": "net.bytebuddy.**"},
+    {"excludeClasses": "org.gradle.**"},
+    {"excludeClasses": "org.jacoco.**"},
+    {"excludeClasses": "java.lang.$JaCoCo"}
+  ]
+}
