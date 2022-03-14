@@ -4,15 +4,31 @@ plugins {
 	id "idea"
 	id "jacoco"
 	id 'io.freefair.aspectj.post-compile-weaving' version '6.3.0'
+	id 'org.graalvm.buildtools.native' version '0.9.10'
 }
 
 repositories {
 	mavenCentral()
 }
 
+graalvmNative {
+	binaries {
+		main {
+			mainClass = "com.amazonaws.services.lambda.runtime.api.client.AWSLambda"
+			debug = true
+			buildArgs.add("--initialize-at-build-time=org.slf4j,jdk.xml.internal.SecuritySupport,sun.instrument.InstrumentationImpl")
+			buildArgs.add("--enable-url-protocols=http,https")
+			buildArgs.add("--enable-http")
+			buildArgs.add("--enable-https")
+			configurationFileDirectories.from(file('src/main/resources/META-INF/native-image'))
+		}
+	}
+}
+
 dependencies {
 
-	implementation "com.amazonaws:aws-lambda-java-core:1.2.1",
+	implementation "com.amazonaws:aws-lambda-java-runtime-interface-client:2.1.0",
+			"com.amazonaws:aws-lambda-java-core:1.2.1",
 			"com.amazonaws:aws-lambda-java-events:3.11.0",
 			"com.amazonaws:aws-java-sdk-dynamodb:1.12.122",
 			"com.nimbusds:oauth2-oidc-sdk:9.3.1",
