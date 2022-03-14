@@ -48,7 +48,7 @@ dependencies {
 			"software.amazon.lambda:powertools-parameters:1.8.0",
 			project(":lib")
 
-	aspect 'software.amazon.lambda:powertools-tracing:1.11.0'
+//	aspect 'software.amazon.lambda:powertools-tracing:1.11.0'
 
 	compileOnly 'org.projectlombok:lombok:1.18.22'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
