@@ -1,0 +1,610 @@
+[
+{
+  "name":"[B"
+},
+{
+  "name":"[C"
+},
+{
+  "name":"[Lcom.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.deser.Deserializers;"
+},
+{
+  "name":"[Lcom.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.ser.Serializers;"
+},
+{
+  "name":"[Lcom.fasterxml.jackson.databind.deser.Deserializers;"
+},
+{
+  "name":"[Lcom.fasterxml.jackson.databind.ser.BeanSerializerModifier;"
+},
+{
+  "name":"[Ljava.lang.Class;"
+},
+{
+  "name":"[Ljava.lang.Object;"
+},
+{
+  "name":"com.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.amazonaws.services.lambda.runtime.Context",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.amazonaws.services.lambda.runtime.LambdaRuntime",
+  "fields":[{"name":"logger"}]
+},
+{
+  "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"setBody","parameterTypes":["java.lang.String"] }, 
+    {"name":"setHeaders","parameterTypes":["java.util.Map"] }, 
+    {"name":"setHttpMethod","parameterTypes":["java.lang.String"] }, 
+    {"name":"setIsBase64Encoded","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"setMultiValueHeaders","parameterTypes":["java.util.Map"] }, 
+    {"name":"setMultiValueQueryStringParameters","parameterTypes":["java.util.Map"] }, 
+    {"name":"setPath","parameterTypes":["java.lang.String"] }, 
+    {"name":"setPathParameters","parameterTypes":["java.util.Map"] }, 
+    {"name":"setQueryStringParameters","parameterTypes":["java.util.Map"] }, 
+    {"name":"setRequestContext","parameterTypes":["com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$ProxyRequestContext"] }, 
+    {"name":"setResource","parameterTypes":["java.lang.String"] }, 
+    {"name":"setStageVariables","parameterTypes":["java.util.Map"] }
+  ]
+},
+{
+  "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$ProxyRequestContext",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"setAccountId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setApiId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setAuthorizer","parameterTypes":["java.util.Map"] }, 
+    {"name":"setHttpMethod","parameterTypes":["java.lang.String"] }, 
+    {"name":"setIdentity","parameterTypes":["com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$RequestIdentity"] }, 
+    {"name":"setPath","parameterTypes":["java.lang.String"] }, 
+    {"name":"setRequestId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setResourceId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setResourcePath","parameterTypes":["java.lang.String"] }, 
+    {"name":"setStage","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$RequestIdentity",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"setAccessKey","parameterTypes":["java.lang.String"] }, 
+    {"name":"setAccountId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setCaller","parameterTypes":["java.lang.String"] }, 
+    {"name":"setCognitoAuthenticationProvider","parameterTypes":["java.lang.String"] }, 
+    {"name":"setCognitoAuthenticationType","parameterTypes":["java.lang.String"] }, 
+    {"name":"setCognitoIdentityId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setCognitoIdentityPoolId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setPrincipalOrgId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setSourceIp","parameterTypes":["java.lang.String"] }, 
+    {"name":"setUser","parameterTypes":["java.lang.String"] }, 
+    {"name":"setUserAgent","parameterTypes":["java.lang.String"] }, 
+    {"name":"setUserArn","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBody","parameterTypes":[] }, 
+    {"name":"getHeaders","parameterTypes":[] }, 
+    {"name":"getIsBase64Encoded","parameterTypes":[] }, 
+    {"name":"getMultiValueHeaders","parameterTypes":[] }, 
+    {"name":"getStatusCode","parameterTypes":[] }
+  ]
+},
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.nimbusds.oauth2.sdk.AuthorizationCodeGrant"
+},
+{
+  "name":"com.nimbusds.oauth2.sdk.ErrorObject"
+},
+{
+  "name":"com.nimbusds.oauth2.sdk.ParseException"
+},
+{
+  "name":"com.nimbusds.oauth2.sdk.TokenRequest"
+},
+{
+  "name":"java.io.Serializable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Boolean",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.lang.Class",
+  "methods":[
+    {"name":"getModule","parameterTypes":[] }, 
+    {"name":"getNestHost","parameterTypes":[] }
+  ],
+  "queriedMethods":[
+    {"name":"forName","parameterTypes":["java.lang.String"] }, 
+    {"name":"getAnnotatedInterfaces","parameterTypes":[] }, 
+    {"name":"getAnnotatedSuperclass","parameterTypes":[] }, 
+    {"name":"getDeclaredMethod","parameterTypes":["java.lang.String","java.lang.Class[]"] }, 
+    {"name":"getMethod","parameterTypes":["java.lang.String","java.lang.Class[]"] }, 
+    {"name":"getNestMembers","parameterTypes":[] }, 
+    {"name":"isNestmateOf","parameterTypes":["java.lang.Class"] }
+  ]
+},
+{
+  "name":"java.lang.ClassLoader",
+  "queriedMethods":[
+    {"name":"defineClass","parameterTypes":["java.lang.String","byte[]","int","int","java.security.ProtectionDomain"] }, 
+    {"name":"definePackage","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","java.lang.String","java.lang.String","java.lang.String","java.lang.String","java.net.URL"] }, 
+    {"name":"findLoadedClass","parameterTypes":["java.lang.String"] }, 
+    {"name":"getClassLoadingLock","parameterTypes":["java.lang.String"] }, 
+    {"name":"getDefinedPackage","parameterTypes":["java.lang.String"] }, 
+    {"name":"getPackage","parameterTypes":["java.lang.String"] }, 
+    {"name":"getUnnamedModule","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.Cloneable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Enum"
+},
+{
+  "name":"java.lang.Integer",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.lang.Module",
+  "methods":[
+    {"name":"canRead","parameterTypes":["java.lang.Module"] }, 
+    {"name":"isExported","parameterTypes":["java.lang.String"] }
+  ],
+  "queriedMethods":[
+    {"name":"addExports","parameterTypes":["java.lang.String","java.lang.Module"] }, 
+    {"name":"addOpens","parameterTypes":["java.lang.String","java.lang.Module"] }, 
+    {"name":"addReads","parameterTypes":["java.lang.Module"] }, 
+    {"name":"getClassLoader","parameterTypes":[] }, 
+    {"name":"getName","parameterTypes":[] }, 
+    {"name":"getResourceAsStream","parameterTypes":["java.lang.String"] }, 
+    {"name":"isExported","parameterTypes":["java.lang.String","java.lang.Module"] }, 
+    {"name":"isNamed","parameterTypes":[] }, 
+    {"name":"isOpen","parameterTypes":["java.lang.String","java.lang.Module"] }
+  ]
+},
+{
+  "name":"java.lang.Number",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Object",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }],
+  "queriedMethods":[{"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Runtime",
+  "methods":[{"name":"version","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Runtime$Version",
+  "methods":[{"name":"major","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.SecurityManager",
+  "queriedMethods":[{"name":"checkPermission","parameterTypes":["java.security.Permission"] }]
+},
+{
+  "name":"java.lang.String"
+},
+{
+  "name":"java.lang.System",
+  "methods":[{"name":"getSecurityManager","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Void",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.annotation.Retention",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.lang.annotation.Target",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.lang.instrument.Instrumentation",
+  "methods":[{"name":"redefineModule","parameterTypes":["java.lang.Module","java.util.Set","java.util.Map","java.util.Map","java.util.Set","java.util.Map"] }]
+},
+{
+  "name":"java.lang.invoke.MethodHandle"
+},
+{
+  "name":"java.lang.invoke.MethodHandles",
+  "methods":[
+    {"name":"lookup","parameterTypes":[] }, 
+    {"name":"privateLookupIn","parameterTypes":["java.lang.Class","java.lang.invoke.MethodHandles$Lookup"] }
+  ]
+},
+{
+  "name":"java.lang.invoke.MethodHandles$Lookup",
+  "methods":[{"name":"defineClass","parameterTypes":["byte[]"] }]
+},
+{
+  "name":"java.lang.reflect.AccessibleObject",
+  "fields":[{"name":"override"}]
+},
+{
+  "name":"java.lang.reflect.AnnotatedArrayType",
+  "queriedMethods":[{"name":"getAnnotatedGenericComponentType","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.AnnotatedParameterizedType",
+  "methods":[{"name":"getAnnotatedActualTypeArguments","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.AnnotatedType",
+  "methods":[{"name":"getType","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.Executable",
+  "methods":[
+    {"name":"getAnnotatedExceptionTypes","parameterTypes":[] }, 
+    {"name":"getAnnotatedParameterTypes","parameterTypes":[] }, 
+    {"name":"getAnnotatedReceiverType","parameterTypes":[] }, 
+    {"name":"getParameterCount","parameterTypes":[] }, 
+    {"name":"getParameters","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.reflect.Method",
+  "methods":[{"name":"getAnnotatedReturnType","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.Parameter",
+  "methods":[
+    {"name":"getModifiers","parameterTypes":[] }, 
+    {"name":"isNamePresent","parameterTypes":[] }
+  ],
+  "queriedMethods":[{"name":"getName","parameterTypes":[] }]
+},
+{
+  "name":"java.security.AccessController",
+  "queriedMethods":[{"name":"doPrivileged","parameterTypes":["java.security.PrivilegedExceptionAction"] }]
+},
+{
+  "name":"java.security.AlgorithmParametersSpi"
+},
+{
+  "name":"java.security.KeyStoreSpi"
+},
+{
+  "name":"java.security.MessageDigestSpi"
+},
+{
+  "name":"java.security.SecureRandomParameters"
+},
+{
+  "name":"java.util.AbstractMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Collections$UnmodifiableMap",
+  "fields":[{"name":"m"}]
+},
+{
+  "name":"java.util.HashMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.HashSet"
+},
+{
+  "name":"java.util.LinkedHashSet"
+},
+{
+  "name":"java.util.Map",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Optional",
+  "methods":[{"name":"empty","parameterTypes":[] }]
+},
+{
+  "name":"java.util.concurrent.ArrayBlockingQueue"
+},
+{
+  "name":"java.util.concurrent.locks.AbstractOwnableSynchronizer"
+},
+{
+  "name":"java.util.concurrent.locks.AbstractQueuedSynchronizer"
+},
+{
+  "name":"java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject"
+},
+{
+  "name":"java.util.concurrent.locks.ReentrantLock"
+},
+{
+  "name":"java.util.concurrent.locks.ReentrantLock$NonfairSync"
+},
+{
+  "name":"java.util.concurrent.locks.ReentrantLock$Sync"
+},
+{
+  "name":"javax.security.auth.x500.X500Principal",
+  "fields":[{"name":"thisX500Name"}],
+  "queriedMethods":[{"name":"<init>","parameterTypes":["sun.security.x509.X500Name"] }]
+},
+{
+  "name":"jdk.internal.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}],
+  "methods":[{"name":"defineClass","parameterTypes":["java.lang.String","byte[]","int","int","java.lang.ClassLoader","java.security.ProtectionDomain"] }]
+},
+{
+  "name":"jdk.internal.module.IllegalAccessLogger",
+  "fields":[{"name":"logger"}]
+},
+{
+  "name":"net.minidev.json.JSONAware",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"net.minidev.json.JSONAwareEx",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"net.minidev.json.JSONObject",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"net.minidev.json.JSONStreamAware",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"net.minidev.json.JSONStreamAwareEx",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.apache.commons.logging.LogFactory"
+},
+{
+  "name":"org.apache.commons.logging.impl.Jdk14Logger",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"org.apache.commons.logging.impl.Log4JLogger"
+},
+{
+  "name":"org.apache.commons.logging.impl.LogFactoryImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.apache.commons.logging.impl.WeakHashtable",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.joda.time.DateTime"
+},
+{
+  "name":"sun.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}],
+  "methods":[
+    {"name":"allocateInstance","parameterTypes":["java.lang.Class"] }, 
+    {"name":"objectFieldOffset","parameterTypes":["java.lang.reflect.Field"] }, 
+    {"name":"putBoolean","parameterTypes":["java.lang.Object","long","boolean"] }
+  ]
+},
+{
+  "name":"sun.reflect.ReflectionFactory",
+  "methods":[
+    {"name":"getReflectionFactory","parameterTypes":[] }, 
+    {"name":"newConstructorForSerialization","parameterTypes":["java.lang.Class","java.lang.reflect.Constructor"] }
+  ]
+},
+{
+  "name":"sun.security.pkcs12.PKCS12KeyStore",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.JavaKeyStore$JKS",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.NativePRNG",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.X509Factory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.rsa.RSAKeyFactory$Legacy",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.KeyManagerFactoryImpl$SunX509",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.SSLContextImpl$DefaultSSLContext",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.x509.AuthorityInfoAccessExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.AuthorityKeyIdentifierExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.BasicConstraintsExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.CRLDistributionPointsExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.CertificatePoliciesExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.ExtendedKeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.IssuerAlternativeNameExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.KeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.NetscapeCertTypeExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.PrivateKeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.SubjectAlternativeNameExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.SubjectKeyIdentifierExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"uk.gov.di.ipv.core.accesstoken.AccessTokenHandler",
+  "queryAllPublicMethods":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"handleRequest","parameterTypes":["com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent","com.amazonaws.services.lambda.runtime.Context"] }
+  ],
+  "queriedMethods":[
+    {"name":"createTokenRequest","parameterTypes":["java.lang.String"] }, 
+    {"name":"getHttpStatusCodeForErrorResponse","parameterTypes":["com.nimbusds.oauth2.sdk.ErrorObject"] }, 
+    {"name":"redirectUrlsDoNotMatch","parameterTypes":["uk.gov.di.ipv.core.library.persistence.item.AuthorizationCodeItem","com.nimbusds.oauth2.sdk.AuthorizationCodeGrant"] }
+  ]
+},
+{
+  "name":"uk.gov.di.ipv.core.library.persistence.item.AuthorizationCodeItem"
+},
+{
+  "name":"uk.gov.di.ipv.core.library.service.AccessTokenService",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queriedMethods":[
+    {"name":"generateAccessToken","parameterTypes":["com.nimbusds.oauth2.sdk.TokenRequest"] }, 
+    {"name":"getIpvSessionIdByAccessToken","parameterTypes":["java.lang.String"] }, 
+    {"name":"persistAccessToken","parameterTypes":["com.nimbusds.oauth2.sdk.AccessTokenResponse","java.lang.String"] }, 
+    {"name":"validateTokenRequest","parameterTypes":["com.nimbusds.oauth2.sdk.TokenRequest"] }
+  ]
+},
+{
+  "name":"uk.gov.di.ipv.core.library.service.AuthorizationCodeService",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queriedMethods":[
+    {"name":"generateAuthorizationCode","parameterTypes":[] }, 
+    {"name":"getAuthorizationCodeItem","parameterTypes":["java.lang.String"] }, 
+    {"name":"persistAuthorizationCode","parameterTypes":["java.lang.String","java.lang.String","java.lang.String"] }, 
+    {"name":"revokeAuthorizationCode","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"uk.gov.di.ipv.core.library.service.ConfigurationService",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queriedMethods":[
+    {"name":"getAccessTokensTableName","parameterTypes":[] }, 
+    {"name":"getAudienceForClients","parameterTypes":[] }, 
+    {"name":"getAuthCodesTableName","parameterTypes":[] }, 
+    {"name":"getBearerAccessTokenTtl","parameterTypes":[] }, 
+    {"name":"getClientAudience","parameterTypes":["java.lang.String"] }, 
+    {"name":"getClientAuthenticationMethod","parameterTypes":["java.lang.String"] }, 
+    {"name":"getClientCertificate","parameterTypes":["java.lang.String"] }, 
+    {"name":"getClientIssuer","parameterTypes":["java.lang.String"] }, 
+    {"name":"getClientRedirectUrls","parameterTypes":["java.lang.String"] }, 
+    {"name":"getClientSubject","parameterTypes":["java.lang.String"] }, 
+    {"name":"getCredentialIssuer","parameterTypes":["java.lang.String"] }, 
+    {"name":"getCredentialIssuers","parameterTypes":[] }, 
+    {"name":"getIpvJourneyCriStartUri","parameterTypes":[] }, 
+    {"name":"getIpvJourneySessionEnd","parameterTypes":[] }, 
+    {"name":"getIpvSessionTableName","parameterTypes":[] }, 
+    {"name":"getIpvTokenTtl","parameterTypes":[] }, 
+    {"name":"getMaxAllowedAuthClientTtl","parameterTypes":[] }, 
+    {"name":"getSharedAttributesSigningKeyId","parameterTypes":[] }, 
+    {"name":"getSsmProvider","parameterTypes":[] }, 
+    {"name":"getUserIssuedCredentialTableName","parameterTypes":[] }, 
+    {"name":"isRunningLocally","parameterTypes":[] }
+  ]
+},
+{
+  "name":"uk.gov.di.ipv.core.library.validation.TokenRequestValidator",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queriedMethods":[{"name":"authenticateClient","parameterTypes":["java.lang.String"] }]
+}
+]
