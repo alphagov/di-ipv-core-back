@@ -22,3 +22,5 @@ RUN set -ex \
         done
 
 RUN $GRAALVM_HOME/bin/gu install native-image
+
+COPY aws-lambda-java-runtime-interface-client /root/.m2/repository/com/amazonaws/aws-lambda-java-runtime-interface-client

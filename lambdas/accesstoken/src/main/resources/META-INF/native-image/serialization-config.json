@@ -1,5 +1,14 @@
 [
   {
+    "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent"
+  },
+  {
+    "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$ProxyRequestContext"
+  },
+  {
+    "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$RequestIdentity"
+  },
+  {
     "name":"java.lang.Enum"
   },
   {
@@ -31,14 +40,5 @@
   },
   {
     "name":"java.util.concurrent.locks.ReentrantLock$Sync"
-  },
-  {
-    "name": "com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent"
-  },
-  {
-    "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$ProxyRequestContext"
-  },
-  {
-    "name":"com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$RequestIdentity"
   }
 ]

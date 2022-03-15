@@ -11,6 +11,12 @@
       "pattern":"\\Qarm64/aws-lambda-runtime-interface-client.glibc.so\\E"
     }, 
     {
+      "pattern":"\\Qcom/amazonaws/xray/sdk.properties\\E"
+    }, 
+    {
+      "pattern":"\\Qcom/amazonaws/xray/strategy/sampling/DefaultSamplingRules.json\\E"
+    }, 
+    {
       "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
     }
   ]},
