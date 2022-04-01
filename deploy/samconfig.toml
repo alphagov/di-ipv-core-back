@@ -1,5 +1,12 @@
 version = 0.1
 
+[build-pr-changesets.deploy.parameters]
+stack_name = "ipv-core-back-build"
+s3_bucket = "di-ipv-core-build-artifacts"
+s3_prefix = "ipv-core-back-build-PR-changesets"
+region = "eu-west-2"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=\"build\""
 
 [dev.deploy.parameters]
 stack_name = "ipv-core-back-development"
