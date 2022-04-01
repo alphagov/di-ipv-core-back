@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
         with:
@@ -21,6 +24,12 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Set up SAM cli
+        uses: aws-actions/setup-sam@v1
       - name: Set up AWS creds
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -28,7 +37,4 @@ jobs:
           aws-region: eu-west-2
       - name: SAM Create Change Set Against Build Environment
         working-directory: ./deploy
-        run: |
-          sam deploy \
-            --no-execute-changeset \
-            --config-env build-pr-changesets
+        run: sam deploy --no-execute-changeset --config-env build-pr-changesets
