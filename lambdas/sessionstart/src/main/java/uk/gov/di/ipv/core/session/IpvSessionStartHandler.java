@@ -115,6 +115,7 @@ public class IpvSessionStartHandler
         }
     }
 
+    @Tracing
     private Optional<ErrorResponse> validateClientSessionDetails(
             ClientSessionDetailsDto clientSessionDetailsDto) {
         boolean isInvalid = false;
@@ -149,6 +150,7 @@ public class IpvSessionStartHandler
         return Optional.empty();
     }
 
+    @Tracing
     private SignedJWT decryptRequest(String jarString)
             throws ParseException, JarValidationException {
         try {

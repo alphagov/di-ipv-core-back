@@ -112,6 +112,7 @@ public class CredentialIssuerReturnHandler
         return Optional.empty();
     }
 
+    @Tracing
     private CredentialIssuerConfig getCredentialIssuerConfig(CredentialIssuerRequestDto request) {
         return configurationService.getCredentialIssuer(request.getCredentialIssuerId());
     }
