@@ -10,6 +10,14 @@ public class State {
     private State parent;
     private Map<String, Event> events = new HashMap<>();
 
+    public State() {}
+
+    public State(String name, String parent, Map<String, Event> events) {
+        this.name = name;
+        this.parent = new State(parent);
+        this.events = events;
+    }
+
     public State(String name) {
         this.name = name;
     }
@@ -43,5 +51,25 @@ public class State {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public State getParent() {
+        return parent;
+    }
+
+    public void setParent(State parent) {
+        this.parent = parent;
+    }
+
+    public Map<String, Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Map<String, Event> events) {
+        this.events = events;
     }
 }

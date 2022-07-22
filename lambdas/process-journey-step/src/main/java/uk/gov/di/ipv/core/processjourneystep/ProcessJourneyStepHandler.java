@@ -4,6 +4,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.nimbusds.oauth2.sdk.OAuth2Error;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +29,15 @@ import uk.gov.di.ipv.core.processjourneystep.domain.JourneyEngineResult;
 import uk.gov.di.ipv.core.processjourneystep.domain.JourneyStep;
 import uk.gov.di.ipv.core.processjourneystep.domain.PageResponse;
 import uk.gov.di.ipv.core.processjourneystep.exceptions.JourneyEngineException;
+import uk.gov.di.ipv.core.statemachine.State;
+import uk.gov.di.ipv.core.statemachine.StateMachine;
+import uk.gov.di.ipv.core.statemachine.StateMachineInitializer;
+import uk.gov.di.ipv.core.statemachine.StateMachineResult;
+import uk.gov.di.ipv.core.statemachine.UnknownEventException;
+import uk.gov.di.ipv.core.statemachine.UnknownStateException;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
@@ -57,23 +67,28 @@ import static uk.gov.di.ipv.core.library.domain.UserStates.PYI_TECHNICAL_UNRECOV
 import static uk.gov.di.ipv.core.processjourneystep.domain.JourneyStep.ERROR;
 import static uk.gov.di.ipv.core.processjourneystep.domain.JourneyStep.FAIL;
 import static uk.gov.di.ipv.core.processjourneystep.domain.JourneyStep.NEXT;
+import static uk.gov.di.ipv.core.statemachine.Context.emptyContext;
 
 public class ProcessJourneyStepHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String JOURNEY_STEP_PARAM = "journeyStep";
 
+    private final StateMachine stateMachine;
     private final IpvSessionService ipvSessionService;
     private final ConfigurationService configurationService;
 
     public ProcessJourneyStepHandler(
-            IpvSessionService ipvSessionService, ConfigurationService configurationService) {
+        StateMachine stateMachine, IpvSessionService ipvSessionService, ConfigurationService configurationService) {
+
+        this.stateMachine = stateMachine;
         this.ipvSessionService = ipvSessionService;
         this.configurationService = configurationService;
     }
 
     @ExcludeFromGeneratedCoverageReport
-    public ProcessJourneyStepHandler() {
+    public ProcessJourneyStepHandler() throws IOException {
+        this.stateMachine = new StateMachine(new StateMachineInitializer());
         this.configurationService = new ConfigurationService();
         this.ipvSessionService = new IpvSessionService(configurationService);
     }
@@ -101,25 +116,37 @@ public class ProcessJourneyStepHandler
                         HttpStatus.SC_BAD_REQUEST, ErrorResponse.INVALID_SESSION_ID);
             }
 
-            JourneyStep journeyStep =
-                    getJourneyStep(input.getPathParameters().get(JOURNEY_STEP_PARAM));
+//            JourneyStep journeyStep =
+//                    getJourneyStep(input.getPathParameters().get(JOURNEY_STEP_PARAM));
 
-            JourneyEngineResult journeyEngineResult =
-                    executeJourneyEvent(journeyStep, ipvSessionItem);
+            String event = input.getPathParameters().get(JOURNEY_STEP_PARAM);
 
-            if (journeyEngineResult.getJourneyResponse() != null) {
-                return ApiGatewayResponseGenerator.proxyJsonResponse(
-                        HttpStatus.SC_OK, journeyEngineResult.getJourneyResponse());
-            } else {
-                return ApiGatewayResponseGenerator.proxyJsonResponse(
-                        HttpStatus.SC_OK, journeyEngineResult.getPageResponse());
-            }
+            StateMachineResult stateMachineResult = stateMachine.transition(ipvSessionItem.getUserState(), event, emptyContext());
+
+            // update dynamo
+
+//            JourneyEngineResult journeyEngineResult =
+//                    executeJourneyEvent(journeyStep, ipvSessionItem);
+
+//            if (stateMachineResult.getJourneyStepResponse().getClass().equals(JourneyResponse.class)) {
+//                return ApiGatewayResponseGenerator.proxyJsonResponse(
+//                        HttpStatus.SC_OK, journeyEngineResult.getJourneyResponse());
+//            } else {
+//                return ApiGatewayResponseGenerator.proxyJsonResponse(
+//                        HttpStatus.SC_OK, journeyEngineResult.getPageResponse());
+//            }
+
+            return ApiGatewayResponseGenerator.proxyJsonResponse(
+                        HttpStatus.SC_OK, stateMachineResult.getJourneyStepResponse().value());
         } catch (HttpResponseExceptionWithErrorBody e) {
             return ApiGatewayResponseGenerator.proxyJsonResponse(
                     e.getResponseCode(), e.getErrorBody());
-        } catch (JourneyEngineException e) {
-            return ApiGatewayResponseGenerator.proxyJsonResponse(
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR, ErrorResponse.FAILED_JOURNEY_ENGINE_STEP);
+//        } catch (JourneyEngineException e) {
+//            return ApiGatewayResponseGenerator.proxyJsonResponse(
+//                    HttpStatus.SC_INTERNAL_SERVER_ERROR, ErrorResponse.FAILED_JOURNEY_ENGINE_STEP);
+        } catch (UnknownEventException | UnknownStateException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

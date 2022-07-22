@@ -21,6 +21,8 @@ import uk.gov.di.ipv.core.library.service.ConfigurationService;
 import uk.gov.di.ipv.core.library.service.IpvSessionService;
 import uk.gov.di.ipv.core.processjourneystep.ProcessJourneyStepHandler;
 import uk.gov.di.ipv.core.processjourneystep.domain.PageResponse;
+import uk.gov.di.ipv.core.statemachine.StateMachine;
+import uk.gov.di.ipv.core.statemachine.StateMachineInitializer;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -56,9 +58,10 @@ class ProcessJourneyStepHandlerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
+        StateMachine stateMachine = new StateMachine(new StateMachineInitializer());
         processJourneyStepHandler =
-                new ProcessJourneyStepHandler(mockIpvSessionService, mockConfigurationService);
+                new ProcessJourneyStepHandler(stateMachine, mockIpvSessionService, mockConfigurationService);
     }
 
     @Test

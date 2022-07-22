@@ -6,10 +6,12 @@ public class BasicEvent implements Event {
     private State targetState;
     private JourneyStepResponse response;
 
-    public BasicEvent(String name, State targetState, JourneyStepResponse response) {
+    public BasicEvent() {}
+
+    public BasicEvent(String name, String targetState, String response) {
         this.name = name;
-        this.targetState = targetState;
-        this.response = response;
+        this.targetState = new State(targetState);
+        this.response = new JourneyResponse(response);
     }
 
     public StateMachineResult resolve(Context context) {
@@ -18,5 +20,25 @@ public class BasicEvent implements Event {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public State getTargetState() {
+        return targetState;
+    }
+
+    public void setTargetState(State targetState) {
+        this.targetState = targetState;
+    }
+
+    public JourneyStepResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(JourneyStepResponse response) {
+        this.response = response;
     }
 }
