@@ -287,6 +287,8 @@ class CredentialIssuerReturnHandlerTest {
                         accessToken, passportIssuer, testApiKey))
                 .thenReturn(SignedJWT.parse(SIGNED_VC_1));
 
+        when(ipvSessionService.getUserId(anyString())).thenReturn(TEST_USER_ID);
+
         mockServiceCallsAndSessionItem();
 
         APIGatewayProxyRequestEvent input =
@@ -308,7 +310,10 @@ class CredentialIssuerReturnHandlerTest {
         assertEquals(authorization_code, value.getAuthorizationCode());
 
         verify(credentialIssuerService)
-                .persistUserCredentials(verifiableCredentialCaptor.capture(), any());
+                .persistUserCredentials(
+                        verifiableCredentialCaptor.capture(),
+                        eq(passportIssuerId),
+                        eq(TEST_USER_ID));
         assertEquals(SIGNED_VC_1, verifiableCredentialCaptor.getValue());
 
         assertEquals(HTTPResponse.SC_OK, response.getStatusCode());
