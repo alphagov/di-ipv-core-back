@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.di.ipv.core.library.domain.UserStates;
+import uk.gov.di.ipv.core.library.dto.AccessTokenMetadata;
 import uk.gov.di.ipv.core.library.dto.ClientSessionDetailsDto;
 import uk.gov.di.ipv.core.library.helpers.SecureTokenHelper;
 import uk.gov.di.ipv.core.library.persistence.DataStore;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,6 +52,22 @@ class IpvSessionServiceTest {
         assertEquals(ipvSessionItem.getIpvSessionId(), result.getIpvSessionId());
         assertEquals(ipvSessionItem.getUserState(), result.getUserState());
         assertEquals(ipvSessionItem.getCreationDateTime(), result.getCreationDateTime());
+    }
+
+    @Test
+    void shouldReturnSessionItemByAuthorizationCode() {
+        String ipvSessionID = SecureTokenHelper.generate();
+        String authorizationCode = "12345";
+
+        IpvSessionItem ipvSessionItem = new IpvSessionItem();
+        ipvSessionItem.setIpvSessionId(ipvSessionID);
+
+        when(mockDataStore.getItemByIndex(anyString(), anyString())).thenReturn(ipvSessionItem);
+
+        IpvSessionItem result =
+                ipvSessionService.getIpvSessionByAuthorizationCode(authorizationCode).orElseThrow();
+
+        assertEquals(result, ipvSessionItem);
     }
 
     @Test
@@ -183,5 +201,25 @@ class IpvSessionServiceTest {
         verify(mockDataStore).update(ipvSessionItemArgumentCaptor.capture());
         assertNotNull(ipvSessionItemArgumentCaptor.getValue().getAccessToken());
         assertNotNull(ipvSessionItemArgumentCaptor.getValue().getAccessTokenMetadata());
+    }
+
+    @Test
+    void shouldRevokeAccessTokenOnSessionItem() {
+        BearerAccessToken accessToken = new BearerAccessToken("test-access-token");
+        IpvSessionItem ipvSessionItem = new IpvSessionItem();
+        ipvSessionItem.setIpvSessionId(SecureTokenHelper.generate());
+        ipvSessionItem.setAccessToken(accessToken.getValue());
+        ipvSessionItem.setAccessTokenMetadata(new AccessTokenMetadata());
+
+        ipvSessionService.revokeAccessToken(ipvSessionItem);
+
+        ArgumentCaptor<IpvSessionItem> ipvSessionItemArgumentCaptor =
+                ArgumentCaptor.forClass(IpvSessionItem.class);
+        verify(mockDataStore).update(ipvSessionItemArgumentCaptor.capture());
+        assertNotNull(
+                ipvSessionItemArgumentCaptor
+                        .getValue()
+                        .getAccessTokenMetadata()
+                        .getRevokedAtDateTime());
     }
 }
