@@ -1,4 +1,4 @@
-package uk.gov.di.ipv.core.credentialissuerreturn;
+package uk.gov.di.ipv.core.retrievecrioauthaccesstoken;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -42,7 +42,7 @@ import java.text.ParseException;
 
 import static uk.gov.di.ipv.core.library.domain.VerifiableCredentialConstants.VC_CLAIM;
 
-public class CredentialIssuerReturnHandler
+public class RetrieveCriOauthAccessTokenHandler
         implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String CRI_VALIDATE_ENDPOINT = "/journey/cri/validate/";
@@ -60,7 +60,7 @@ public class CredentialIssuerReturnHandler
 
     private String componentId;
 
-    public CredentialIssuerReturnHandler(
+    public RetrieveCriOauthAccessTokenHandler(
             CredentialIssuerService credentialIssuerService,
             CredentialIssuerV2Service credentialIssuerV2Service,
             ConfigurationService configurationService,
@@ -76,7 +76,7 @@ public class CredentialIssuerReturnHandler
     }
 
     @ExcludeFromGeneratedCoverageReport
-    public CredentialIssuerReturnHandler() {
+    public RetrieveCriOauthAccessTokenHandler() {
         this.configurationService = new ConfigurationService();
         this.credentialIssuerService =
                 new CredentialIssuerService(
